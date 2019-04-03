@@ -2,7 +2,7 @@
   (:require
    [goog.dom :as gdom]
    [com.stuartsierra.component :as component]
-   [atea.uaw :refer [new-system]]
+;;   [atea.uaw :refer [new-system]]
    [reagent.core :as reagent :refer [atom]]))
 
 (println "This text is printed from src/atea/uccx.cljs. Go ahead and edit it and see reloading in action.")
@@ -27,6 +27,9 @@
 (defn mount-app-element []
   (when-let [el (get-app-element)]
     (mount el)))
+
+(defn new-system []
+   {:dev 'start'})
 
 (defn start []
   (let [system (new-system :dev)]
