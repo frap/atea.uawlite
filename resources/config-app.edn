@@ -1,0 +1,10 @@
+{:atea.module/moment {}
+
+ :atea.module/router
+ ["/" {""       :home
+       "about"  :about}]
+
+ :atea.module/app
+ {:mount-point-id "app"
+  :routes #ig/ref :atea.module/router
+  :moment #ig/ref :atea.module/moment}}

@@ -1,0 +1,55 @@
+;; Copyright © 2019, Red Elvis.
+
+;; Aero configuration for DB access
+
+{
+ :port #or [#env UCCX_PORT 1504]
+ :uccx_srv #or [#env UCCX_SRV "atea_dev_uccx11"]
+ :uccx_ip #or [#env UCCX_IP "9.1.1.62"]
+ :uccx_sec_srv #or [#env UCCX_SEC_SRV "9.1.1.64"]
+ :uccx_sec_ip #or [#env UCCX_SEC_IP "9.1.1.64"]
+ :uccx_db  #or [#env UCCX_DB "db_cra"]
+ :hrpasswd #or [#env HR_PASS "ateasystems0916"]
+ :wallpasswd #or [#env WALL_PASS "ateasystems0916"]
+ :hruser    "uccxhruser"
+ :walluser  "uccxwallboard"
+
+ :uccxdb-hr
+ { :username  "uccxhruser"
+  :password  ^:ref [:hrpassword]
+  :conn-timeout  2000
+  :idle-timeout  3000
+  :max-lifetime  10000
+  :max-pool-size 5
+  :pool-name  "Uccx-HRStats"
+  :uri    #join [ "jdbc:informix-sqli://"
+                 #ref [:uccx_ip]
+                 ":"
+                 #ref [:port]
+                 "/"
+                 #ref [:uccx_db]
+                 ":informixserver="
+                 #ref [:uccx_srv]
+                 "_uccx;user="
+                 #ref [:hruser]
+                 ";password="
+                 #ref [:hrpasswd]
+                 ]
+  }
+ :uccxdb-rt {:conn-timeout  2000
+             :uri  #join [ "jdbc:informix-sqli://"
+                          ^:ref [:uccx_ip]
+                          ":"
+                          ^:ref [:port]
+                          "/"
+                          ^:ref [:uccx_db]
+                          ":informixserver="
+                          ^:ref [:uccx_srv]
+                          "_uccx;user="
+                          ^:ref [:walluser]
+                          ";password="
+                          ^:ref [:wallpasswd]
+                          ]
+             :pool-name  "Uccx-RTStats"
+             }
+}
